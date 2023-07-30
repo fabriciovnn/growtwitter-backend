@@ -11,40 +11,55 @@ export class User extends Base {
     this._tweets = []
   }
 
+  public get username() : string {
+    return this._username
+  }
+  
+
   sendTweet(tweet: Tweet) {
+      if(this.id !== tweet.user.id) {
+        console.log('Não é possível enviar um tweet criado por outra pessoa.');
+        return
+      }
+    console.log('tweet enviado com sucesso!')
     this._tweets.unshift(tweet)
   }
 
   follow(user: User) {
     // verificar se o usuário não é ele mesmo
     if(user.id === this.id) {
-      console.log('Não é possivel seguir a si mesmo')
+      console.log('Não é possivel seguir a si mesmo.')
+      console.log("--------------------------------\n")
       return;
     }
 
     this._following.push(user)
+    console.log(`Agora você está seguindo @${user._username}!`)
+    console.log("--------------------------------\n")
   }
 
   // mostrar os tweets dos followings deste usuário
   showFeed() {
-    this._following.forEach((user) => console.log(`${user.showTweets()}`))
+    this._following.forEach((user) => user.showTweets())
   }
 
   // tweets deste usuario
   showTweets() {
-
-    //utilizar o map
     this._tweets.forEach((tweet) => {
       if(!tweet.show().likes.length) {
-        console.log(`@${this._username}: ${tweet.show().content}`)
+        console.log(`@${this._username}: ${tweet.show().content} \n[0 Likes]`)
+        console.log("--------------------------------\n")
+        return
       } 
 
       if(tweet.show().likes.length === 1) {
         console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].user._username} like this!]`)
+        console.log("--------------------------------\n")
+      return
       }
 
-      console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].user._username} and others ${tweet.show().likes.length -1} like this!]`)
-      
+      console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].user._username} and other ${tweet.show().likes.length -1} user liked this!]`)
+      console.log("--------------------------------\n")
     })
   }
 }
