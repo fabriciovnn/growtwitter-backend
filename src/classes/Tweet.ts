@@ -14,14 +14,6 @@ export class Tweet extends Base {
     this._likes = []
   }
   
-  public get user() : User {
-    return this._user
-  }
-
-  public get type() : string {
-    return this._type
-  }
-  
   public reply(tweet: Tweet) {
     if(this._user.id === tweet._user.id) {
       console.log('não é possível dar reply em um tweet criado por si mesmo')
@@ -29,14 +21,14 @@ export class Tweet extends Base {
       return;
     }
 
-    if(tweet.type === 'normal') {
+    if(tweet.show().type === 'normal') {
       console.log("Não foi possível responder. Tweet precisa ser do tipo 'reply'")
       console.log("--------------------------------\n")
       return
     }
 
     this._replies.push(tweet)
-    console.log('reply enviado com sucesso!')
+    console.log(`@${tweet.show().user.show().username} deu reply em um tweet de @${this._user.show().username}!`)
     console.log("--------------------------------\n")
   }
 
@@ -64,13 +56,15 @@ export class Tweet extends Base {
     return {
       content: this._content,
       likes: this._likes,
-      replies: this._replies
+      replies: this._replies,
+      type: this._type,
+      user: this._user
     }
   }
 
   public showReplies() {
     if(!this._likes.length) {
-      console.log(`@${this.user.show().username}: ${this._content} \n[0 Likes]`)
+      console.log(`@${this.show().user.show().username}: ${this._content} \n[0 Likes]`)
 
       if(this._replies.length) {
         this._replies.forEach(reply => console.log(`   > ${reply._user.show().username}: ${reply._content}`))

@@ -7,7 +7,6 @@ export abstract class Base {
     this._id = randomUUID()
   }
 
-  
   public get id() : string {
     return this._id
   }

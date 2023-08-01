@@ -7,7 +7,7 @@ export class Users {
     this._data = []
   }
 
-  addUser(user: User) {
+  public addUser(user: User) {
     if(!this._data.length) {
       this._data.push(user)
       console.log(`User @${user.show().username} foi adicionado ao database`)
