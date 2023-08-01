@@ -11,7 +11,6 @@ export class User extends Base {
     this._tweets = []
   }
 
-
   public sendTweet(tweet: Tweet) {
       if(this.id !== tweet.show().user.id) {
         console.log('Não é possível enviar um tweet criado por outra pessoa.');
@@ -38,7 +37,7 @@ export class User extends Base {
     }
 
     this._followers.push(user)
-    console.log(`Agora você está seguindo @${user._username}!`)
+    console.log(`${this._username} começou a seguir @${user._username}!`)
     console.log("--------------------------------\n")
   }
 
