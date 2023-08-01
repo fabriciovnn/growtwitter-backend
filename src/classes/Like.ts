@@ -6,8 +6,9 @@ export class Like extends Base {
     super()
   }
   
-  public get user() : User {
-    return this._user
+  public show() {
+    return {
+      user: this._user
+    }
   }
-  
 }

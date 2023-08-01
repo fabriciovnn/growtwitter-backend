@@ -12,4 +12,6 @@ export abstract class Base {
     return this._id
   }
   
+  public show() {
+  }
 }

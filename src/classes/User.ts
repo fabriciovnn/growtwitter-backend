@@ -11,22 +11,22 @@ export class User extends Base {
     this._tweets = []
   }
 
-  public get username() : string {
-    return this._username
-  }
-  
+
   sendTweet(tweet: Tweet) {
       if(this.id !== tweet.user.id) {
         console.log('Não é possível enviar um tweet criado por outra pessoa.');
+        console.log("--------------------------------\n")
         return
       }
 
       if(tweet.type === 'reply') {
         console.log('não é possível enviar um tweet do tipo reply')
+        console.log("--------------------------------\n")
         return;
       }
 
     console.log('tweet enviado com sucesso!')
+    console.log("--------------------------------\n")
     this._tweets.unshift(tweet)
   }
 
@@ -40,6 +40,16 @@ export class User extends Base {
     this._followers.push(user)
     console.log(`Agora você está seguindo @${user._username}!`)
     console.log("--------------------------------\n")
+  }
+
+  public show() {
+    return {
+      name: this._name,
+      username: this._username,
+      email: this._email,
+      tweets: this._tweets.length ? this._tweets.length : [],
+      follwers: this._followers.length ? this._followers.length : []
+    }
   }
 
   showFeed() {
@@ -65,7 +75,7 @@ export class User extends Base {
       } 
 
       if(tweet.show().likes.length === 1) {
-        console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].user._username} like this!]`)
+        console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].show().user._username} like this!]`)
 
         if(tweet.show().replies.length) {
           tweet.show().replies.forEach((reply, index) => console.log(`   > ${reply.user._username}: ${reply.show().content}`))
@@ -75,7 +85,7 @@ export class User extends Base {
       return
       }
 
-      console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].user._username} and other ${tweet.show().likes.length -1} user liked this!]`)
+      console.log(`@${this._username}: ${tweet.show().content} \n[@${tweet.show().likes[0].show().user._username} and other ${tweet.show().likes.length -1} user liked this!]`)
 
       if(tweet.show().replies.length) {
         tweet.show().replies.forEach((reply, index) => console.log(`   > ${reply.user._username}: ${reply.show().content}`))
